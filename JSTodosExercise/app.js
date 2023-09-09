@@ -15,7 +15,7 @@ form.addEventListener('submit', function(e) {
     const newTodo = makeTodos((todoInput.value + ' '));
     results.append(newTodo);
 
-    savedTodos.push(newTodo.innerText);// should? push the newly created todos into the localstorage
+    savedTodos.push(todoInput.value);// should? push the newly created todos into the localstorage
     localStorage.setItem('todoItem', JSON.stringify(savedTodos))
 })
 
@@ -26,7 +26,7 @@ function makeTodos(text)
     const removeButton = document.createElement('button');
     removeButton.innerText = "Remove Todo.";
     todoText.innerText = text;
-    todoText.append(removeButton);
+    todoText.appendChild(removeButton);
     return todoText;
 }
 
@@ -35,7 +35,14 @@ results.addEventListener('click', function(e) {
     if(e.target.tagName === 'BUTTON')
     {
         e.target.parentElement.remove();
-        localStorage.removeItem('todoItem');
+        var fullText = e.target.parentElement.innerText;
+        var liText = fullText.replace('Remove Todo', '');
+        //console.log(liText);
+        localStorage.removeItem('todoItem')
+        if(savedTodos[0] === liText)
+        {
+            console.log("found it ");
+        }
     }
     else if (e.target.tagName === 'LI')
     {
